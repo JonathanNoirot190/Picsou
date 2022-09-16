@@ -1,0 +1,15 @@
+.env
+/db-data/
+/data/
+/hourlyAPI/instance/
+/hourlyAPI/migrations/
+**/venv/
+**/__pycache__
+**/.DS_Store
+**/logs
+/prices
+
+doc/sphinx/*
+!doc/sphinx/source
+doc/sphinx/source/*
+!doc/sphinx/source/conf.py

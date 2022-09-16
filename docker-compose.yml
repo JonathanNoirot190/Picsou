@@ -1,0 +1,45 @@
+version: '3.2'
+
+services:
+  cryptobot-prices_db:
+    image: postgres:latest
+    container_name: cryptobot-prices_db
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=db_admin
+      - POSTGRES_PASSWORD=db_admin_pwd
+      - POSTGRES_DB=cryptobot-prices
+    user: "0:0"
+    volumes:
+      - ./db-data:/var/lib/postgresql/data/pgdata
+    expose: 
+      - 5432
+    ports:
+      - 5432:5432
+    networks:
+      data_cryptobot_ntk:
+        aliases:
+          - cryptobot-prices_db
+
+  cryptobot-hourly_api:
+    build:
+      context: hourlyAPI
+    container_name: hourly_api
+    environment:
+      - FLASK_ENV=prod
+    volumes:
+      - ./logs:/hourly/logs
+      - ./prices:/hourly/prices
+    expose: 
+      - 5000
+    ports:
+      - 5000:5000
+    networks:
+      data_cryptobot_ntk:
+        aliases:
+          - cryptobot-hourly_api
+      
+networks:
+    data_cryptobot_ntk:
+      external: true
+
